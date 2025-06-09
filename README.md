@@ -8,10 +8,11 @@ Morgana needs your help to bring Round Table 2.0 to life by building a robust in
     - [1. **UmbracoCMS**](#1-umbracocms)
     - [2. **UmbracoBridge**](#2-umbracobridge)
     - [3. **UmbracoAppHost**](#3-umbracoapphost)
-    - [📁 Project structure](#-project-structure)
   - [🚀 Steps to Set Up and Run the Solution Locally](#-steps-to-set-up-and-run-the-solution-locally)
     - [🛠 Prerequisites](#-prerequisites)
-    - [⚙️ Running the Full System with Aspire](#️-running-the-full-system-with-aspire)
+    - [Run Umbraco CMS](#run-umbraco-cms)
+    - [Run Umbraco Bridge](#run-umbraco-bridge)
+    - [⚙️ Running with Aspire](#️-running-with-aspire)
   - [📡 Web API Endpoints (via UmbracoBridge)](#-web-api-endpoints-via-umbracobridge)
     - [✅ GET /healthcheck](#-get-healthcheck)
     - [🧾 POST /document-type](#-post-document-type)
@@ -24,13 +25,9 @@ Morgana needs your help to bring Round Table 2.0 to life by building a robust in
     - [🛴How run tests:](#how-run-tests)
   - [❗Side Quests](#side-quests)
     - [📦 Delivery API (UmbracoCMS)](#-delivery-api-umbracocms)
-      - [✅ Configuration:](#-configuration)
     - [🔗 Aspire – UmbracoAppHost](#-aspire--umbracoapphost)
-      - [🏗 How it was created](#-how-it-was-created)
-      - [⚙️ Service Registration and Configuration](#️-service-registration-and-configuration)
-      - [🖥 Aspire Dashboard](#-aspire-dashboard)
+    - [✅ Add Scalar to “UmbracoBride” service](#-add-scalar-to-umbracobride-service)
     - [🔧 Backoffice API](#-backoffice-api)
-      - [✅ What Was Done](#-what-was-done)
 
 ## 📦 Overview of the Solution
 
@@ -119,7 +116,7 @@ dotnet run
 2. Open UmbracoBridge swagger `http://localhost:5031/swagger/index.html`
 
 
-### ⚙️ Running the Full System with Aspire
+### ⚙️ Running with Aspire
 
 1. Navigate to `UmbracoAppHost` folder
 ```bash
@@ -380,7 +377,29 @@ From the dashboard, you can:
 - Debug startup issues or misconfigurations
 
 ---
+### ✅ Add Scalar to “UmbracoBride” service.
+As part of the challenge, Scalar was successfully integrated into the UmbracoBridge.Api service to enhance API reference visibility.
 
+🛠️ Implementation Summary:
+- The NuGet package `Scalar.AspNetCore` was added to `UmbracoBridge.Api.csproj`:
+  ```bash
+  dotnet add package Scalar.AspNetCore
+  ```
+- The `Program.cs` file was modified to register Scalar in the development environment:
+  ```csharp
+  if (app.Environment.IsDevelopment())
+  {
+      app.UseSwagger(options =>
+      {
+          options.RouteTemplate = "/openapi/{documentName}.json";
+      });
+      app.MapScalarApiReference();
+  }
+  ```
+- The integration was tested by navigating to `http://localhost:<port>/scalar/`, confirming that the Scalar interface correctly renders the OpenAPI spec from Swagger.
+![UmbracoBrideScalar](./docs/assets/umbraco-bridge-scalar.png)
+
+---
 ### 🔧 Backoffice API
 Create a new API inside the UmbracoCMS project as part of the Umbraco Management API, with the following behavior:
 - Endpoint: `POST /umbraco/management/api/v1/backoffice/check`

@@ -76,15 +76,54 @@ morgana-challenge/
 
 ---
 
-### ⚙️ Running the Full System with Aspire
-
+### 🛠 Download and build solution
 ```bash
 git clone https://github.com/cristhyanGlobant/morgana-challenge.git
 
 cd morgana-challenge
 dotnet build
+```
 
-cd UmbracoAppHost
+
+### Run Umbraco CMS
+1. Navigate to `UmbracoCMS` folder
+2. Build and run UmbracoCMS 
+```bash
+dotnet build
+dotnet run
+```
+>Install dev certificates. When working with .NET Aspire or ASP.NET Core applications locally, HTTPS is enabled by default. However, browsers and services like the Aspire dashboard may reject the local development certificate unless it's explicitly trusted
+```bash
+dotnet dev-certs https --trust
+```
+#### Install Umbraco CMS
+
+1. Open UmbracoCMS `https://localhost:44342`
+2. Fill the form
+    - Consent for telemetry data: Detailed
+    - Database type: SQLite, Database Name: Umbraco
+  ![UmbracoForm](./docs/assets/umbraco-install-form.png)
+3. Login to UmbracoCMS and create a API user. 
+4. Inside Api User, create a Client credentials
+   - ClientId: `umbraco-back-office-my-client`
+   - ClientSecret: `my-client-secret`
+  ![clienCredentials](./docs/assets/umbraco-client-credentials.png)
+
+
+### Run Umbraco Bridge
+1. Navigate to `UmbracoBridge\UmbracoBridge.Api` folder
+```bash
+dotnet build
+dotnet run
+```
+2. Open UmbracoBridge swagger `http://localhost:5031/swagger/index.html`
+
+
+### ⚙️ Running the Full System with Aspire
+
+1. Navigate to `UmbracoAppHost` folder
+```bash
+dotnet build
 dotnet run
 ```
 

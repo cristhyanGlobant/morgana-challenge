@@ -84,7 +84,7 @@ git clone https://github.com/cristhyanGlobant/morgana-challenge.git
 cd morgana-challenge
 dotnet build
 
-cd morgana-challenge/UmbracoAppHost
+cd UmbracoAppHost
 dotnet run
 ```
 
